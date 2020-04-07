@@ -35,7 +35,7 @@ void vector_add(vector *v, void *item)
     if (v->capacity == v->total)
         vector_resize(v, v->capacity * 2);
     v->items[v->total++] = item;
-    v->total++;
+    // v->total++;
 }
 
 void vector_set(vector *v, int index, void *item)
