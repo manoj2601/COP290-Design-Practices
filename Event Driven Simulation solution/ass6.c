@@ -137,9 +137,9 @@ int main(int argc, char** args)
 	Node head1 = {e1, NULL};
 	Node *head= &head1;
 	
-	(*head).CurrEvent = e1;
+	head1.CurrEvent = e1;
 	
-	(*head).NextNode = NULL;
+	head1.NextNode = NULL;
 
 	vector v;
 	vector_init(&v);
@@ -158,9 +158,9 @@ int main(int argc, char** args)
 
 	Node *temp = head;
 
-	while((*temp).NextNode != NULL)
+	while(temp->NextNode != NULL)
 	{
-		temp = &((*temp).NextNode);
+		temp = temp->NextNode;
 		continue;
 	}
 	printf("Manoj Kumar ne start kr diya\n");
