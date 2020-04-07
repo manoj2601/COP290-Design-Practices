@@ -29,24 +29,24 @@ void enQueueEvent(EventQueue *q, Event e)
 	{
 		// Node n = {e, NULL};
 
-		q->head = newnode;
+		q->head = &newnode;
 	}
 	else
 	{
-		Node *curr = &(q->head);
+		Node *curr = (q->head);
 		Node *prev;
 		bool isdone = false;
 		//First go for head
-		if(q->head.CurrEvent.eventtime > e.eventtime)
+		if(q->head->CurrEvent.eventtime > e.eventtime)
 		{
-			Node n = (q->head);
-			Node *m = &n;
+			Node n = *(q->head);
+			// Node *m = &n;
 			printf("adding is going\n");
 			
 			// printf("3rd element is %d, %d\n", n.NextNode->CurrEvent.typeofevent, n.NextNode->CurrEvent.eventtime);
 			printf("Done\n");
-			newnode.NextNode = m;
-			q->head = newnode;
+			newnode.NextNode = &n;
+			q->head = &newnode;
 			isdone = true;
 		} //done for head
 		else{
@@ -88,8 +88,8 @@ Event deQueueEvent(EventQueue *q)
 		return n;
 	}
 	q->size--;
-	Node n = q->head;
-	q->head = *(q->head.NextNode);
+	Node n = *(q->head);
+	q->head = q->head->NextNode;
 	return n.CurrEvent;
 }
 
@@ -97,9 +97,9 @@ void printEventQueue(EventQueue *q)
 {
 	// printf("printing Event Queue\n");
 	int length = q->size;
-	Node *temp = (q->head.NextNode);
+	Node *temp = (q->head->NextNode);
 	if(length != 0)
-		printf("head is : %d, %d\n", q->head.CurrEvent.typeofevent, q->head.CurrEvent.eventtime);
+		printf("head is : %d, %d\n", q->head->CurrEvent.typeofevent, q->head->CurrEvent.eventtime);
 	for(int i=1; i<length; i++)
 	{
 		printf("%d, %d\n" ,temp->CurrEvent.typeofevent, temp->CurrEvent.eventtime);
