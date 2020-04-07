@@ -12,7 +12,7 @@ all: ass6.c vector.c vector.c tellerline.h tellerline.c EventQueue.h EventQueue.
 	sudo mv tellerline.so vector.so EventQueue.so /usr/lib
 # 	sudo mv myheader.so /usr/lib/
 	sudo ldconfig
-
+	rm -rf *.o
 	
 clean:
 	rm -rf *.o
