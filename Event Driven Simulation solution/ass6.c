@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
+#include <unistd.h>
+
 #include "vector.h"
 #include "tellerline.h"
 #include "EventQueue.h"
@@ -91,16 +94,22 @@ void idletellercomp()
 void printLinkedList(Node *head)
 {
 	Node temp = *head;
-	while(temp.NextNode != NULL)
+	if(temp.NextNode != NULL)
 	{
-		printf("original %d, %d\n", temp.CurrEvent.typeofevent, temp.CurrEvent.eventtime);
 		temp = *(temp.NextNode);
 	}
-	printf("original %d, %d\n", temp.CurrEvent.typeofevent, temp.CurrEvent.eventtime);
+	else return;
+	while(temp.NextNode != NULL)
+	{
+		printf("original %d, %f\n", temp.CurrEvent.typeofevent, temp.CurrEvent.eventtime);
+		temp = *(temp.NextNode);
+		sleep(0.1);
+	}
+	printf("last %d, %f\n\n", temp.CurrEvent.typeofevent, temp.CurrEvent.eventtime);
 }
 
-	void insertNode(Node *head, Node *tobeinsert)
-	{
+void insertNode(Node *head, Node *tobeinsert)
+{
 		//without sorting
 		// Node *temp = head;
 		// while(temp->NextNode != NULL)
@@ -141,9 +150,8 @@ void printLinkedList(Node *head)
 			prev->NextNode = tobeinsert;
 			return;
 		}
+}
 
-	}
-	
 int main(int argc, char** args)
 {
 	int totalcostumers = atoi(args[1]);
@@ -153,17 +161,19 @@ int main(int argc, char** args)
 	
 	vector equeue;
 	vector_init (&equeue);
-	
 	//creating an array of tellers
-	struct teller arraytellers[totaltellers]; //array of all tellers
+	struct teller* arraytellers[totaltellers]; //array of all tellers
 	Node *head = (Node*) malloc(sizeof(Node)); //Head of  EventQueue Head is nothing but a node with CurrEvent NULL, first Node of LinkedList starts with head->NextNode.
 	head->NextNode = NULL;
 	int k=0;
 	for(k=0; k<totaltellers; k++)
-	{
+	{	
 		struct teller t1;
 		t1.idletime = rand()%600;
-		arraytellers[k] = t1;
+		tellerline tl;
+		tellerline_init(&tl);
+		t1.tline = tl; 
+		arraytellers[k] = &t1;
 
 		struct Event e1;
 		e1.typeofevent = 4;
@@ -174,18 +184,43 @@ int main(int argc, char** args)
 		Node *tobeinsert = (Node*) malloc(sizeof(Node));
 		tobeinsert->CurrEvent = e1;
 		tobeinsert->NextNode = NULL;
-
 		insertNode(head, tobeinsert);
-		Node *temp = head;
-		while(temp->NextNode != NULL)
-		{
-			temp = (temp->NextNode);
-		}
-		temp->NextNode = tobeinsert;
 	}
-
 	printLinkedList(head);
 	//All tellers event inserted
+
+	for(k=0; k<totalcostumers; k++)
+	{
+		float arrTime = simulationTime * rand()/(RAND_MAX+0.0);
+		printf("arrTime is : %f\n", arrTime);
+
+		struct costumer c = {arrTime};
+		
+		struct Event e1;
+		e1.typeofevent = 1;
+		e1.object = &c;
+		e1.eventtime = c.arrTime;
+		e1.fun_ptr = &add_costumer;
+
+		Node *tobeinsert = (Node*) malloc(sizeof(Node));
+		tobeinsert->CurrEvent = e1;
+		tobeinsert->NextNode = NULL;
+		insertNode(head, tobeinsert);
+	}
+	printLinkedList(head);
+
+	float clk=0;
+	while(true)
+	{
+		if(head->NextNode == NULL)
+			break;
+		Node *curr = head->NextNode;
+		head->NextNode = curr->NextNode;
+		clk = curr->CurrEvent.eventtime;
+		
+		printf("Event completed %f\n", clk);
+		printLinkedList(head);
+	}
 	exit(1);
 
 
