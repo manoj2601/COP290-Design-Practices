@@ -1,4 +1,4 @@
-all: ass6.c vector.c vector.c tellerline.h tellerline.c EventQueue.h EventQueue.c
+all: ass6.c vector.c vector.c tellerline.h tellerline.c EventQueue.h EventQueue.c allstructs.h
 # 	gcc -fPIC -c ass6.c
 	gcc -fPIC -c vector.c
 	gcc -fPIC -c tellerline.c

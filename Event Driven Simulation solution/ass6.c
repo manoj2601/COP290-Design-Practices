@@ -69,25 +69,8 @@ void add_costumer(struct teller* arraytellers[], int totaltellers, float clk)//s
 	//now we need to add costumer c in the mins[rnd]-th element of the vector v.
 	int targetindex = mins[rnd];
 	enQueue(&(arraytellers[targetindex]->tline), c);
-	// exit(1);
-	// struct teller *t = vector_get(v, targetindex);
 }
-// void add_costumer1(vector *v/*vector of teller structs*/, struct costumer c)
-// {
-	
-// 	int* mins = minindex(v);
-// 	int totalmins = 0;
-// 	while(mins[totalmins] != -1)
-// 	{
-// 		totalmins++;
-// 	}
-// 	int rnd = rand()%totalmins;
-// 	//now we need to add costumer c in the mins[rnd]-th element of the vector v.
-// 	int targetindex = mins[rnd];
-// 	struct teller *t = vector_get(v, targetindex);
-// 	//t->tline mein add krna hai c ko
-// 	// vector_add(v->tline, &c);
-// }
+
 //TYPE 2
 int delete_costumer(int currentTime, struct costumer *c)
 {
@@ -103,6 +86,12 @@ void nextjob_teller(struct teller *t, vector *v/*vector of teller structs*/)
 //TYPE 4
 void idletellercomp(struct teller* arraytellers[], int totaltellers, float clk)
 {
+	Event curr = head->NextNode->CurrEvent; //Event on which we are working
+	head->NextNode = head->NextNode->NextNode;	//removing the head of EventQueue
+	struct teller t = *((struct teller *) curr.object);
+	//gather statices about the teller t
+	 
+
 	printf("idle teller completed %d\n", 10);
 }
 
@@ -186,11 +175,8 @@ int main(int argc, char** args)
 	{	
 		// struct teller t2;
 		struct teller *t1 = (struct teller *) malloc(sizeof(struct teller));
-		// = &t2;
 		t1->idletime = rand()%600;
-		// tellerline tl;
 		tellerline_init(&(t1->tline));
-		// t1.tline = tl;
 		arraytellers[k] = t1;
 
 		struct Event e1;
