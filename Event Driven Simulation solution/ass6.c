@@ -98,6 +98,52 @@ void printLinkedList(Node *head)
 	}
 	printf("original %d, %d\n", temp.CurrEvent.typeofevent, temp.CurrEvent.eventtime);
 }
+
+	void insertNode(Node *head, Node *tobeinsert)
+	{
+		//without sorting
+		// Node *temp = head;
+		// while(temp->NextNode != NULL)
+		// {
+		// 	temp = (temp->NextNode);
+		// }
+		// temp->NextNode = tobeinsert;
+
+
+		//with sorting
+		if(head->NextNode == NULL) //zero elements in the EventQueue
+		{
+			head->NextNode = tobeinsert;
+			return;
+		}
+
+		bool inend=false;
+		Node *curr = head->NextNode;
+		Node *prev = head;
+		while(curr->CurrEvent.eventtime < tobeinsert->CurrEvent.eventtime)
+		{
+			if(curr->NextNode == NULL)
+			{
+				inend = true;
+				break;
+			}
+			prev = curr;
+			curr = curr->NextNode;
+		}
+		if(inend)
+		{
+			curr->NextNode = tobeinsert;
+			return;
+		}
+		else
+		{
+			tobeinsert->NextNode = curr;
+			prev->NextNode = tobeinsert;
+			return;
+		}
+
+	}
+	
 int main(int argc, char** args)
 {
 	int totalcostumers = atoi(args[1]);
@@ -128,6 +174,8 @@ int main(int argc, char** args)
 		Node *tobeinsert = (Node*) malloc(sizeof(Node));
 		tobeinsert->CurrEvent = e1;
 		tobeinsert->NextNode = NULL;
+
+		insertNode(head, tobeinsert);
 		Node *temp = head;
 		while(temp->NextNode != NULL)
 		{
@@ -135,8 +183,9 @@ int main(int argc, char** args)
 		}
 		temp->NextNode = tobeinsert;
 	}
+
 	printLinkedList(head);
-	
+	//All tellers event inserted
 	exit(1);
 
 
