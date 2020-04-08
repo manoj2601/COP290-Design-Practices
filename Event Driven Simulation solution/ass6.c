@@ -56,26 +56,19 @@ int* minindex(struct teller* arraytellers[], int totaltellers)
 //TYPE 1
 void add_costumer(struct teller* arraytellers[], int totaltellers, float clk)//struct teller* arraytellers[0], Node* head, Event e)
 {
-	printf("add_costumer is calling %d\n", 1);
 	Event curr = head->NextNode->CurrEvent; //Event on which we are working
 	head->NextNode = head->NextNode->NextNode;	//removing the head of EventQueue
-	printf("add_costumer is calling %d\n", 2);
 	struct costumer c = *((struct costumer *) curr.object);
-	printf("add_costumer is calling %d\n", 3);
 	int* mins = minindex(arraytellers, totaltellers);	//all indices of tellers with minimum costumers 
-	printf("add_costumer is calling %d\n", 4);
 	int totalmins=0;	//size of mins
 	while(mins[totalmins] != -1)
 	{
 		totalmins++;
 	}
-	printf("add_costumer is calling %d\n", 5);
 	int rnd = rand()%totalmins;
 	//now we need to add costumer c in the mins[rnd]-th element of the vector v.
 	int targetindex = mins[rnd];
-	printf("add_costumer is calling %d\n", 6);
 	enQueue(&(arraytellers[targetindex]->tline), c);
-	printf("add_costumer is calling %d\n", 7);
 	// exit(1);
 	// struct teller *t = vector_get(v, targetindex);
 }
