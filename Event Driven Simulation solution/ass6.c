@@ -7,16 +7,16 @@
 #include "vector.h"
 #include "tellerline.h"
 #include "EventQueue.h"
+#include "allstructs.h"
 // struct costumer
 // {
 // 	float arrTime; //random
 // };
 
-struct teller
-{
-	tellerline tline;	//queue of the teller
-	float idletime;//random idle time in the range of 1 - 600 seconds.
-};
+
+
+
+
 
 int* minindex(vector *v/*vector of teller structs*/)
 {
@@ -56,7 +56,11 @@ int* minindex(vector *v/*vector of teller structs*/)
 }
 
 //TYPE 1
-void add_costumer(vector *v/*vector of teller structs*/, struct costumer c)
+void add_costumer(struct teller* arraytellers[0], Node* head, Event e)
+{
+	struct teller *t = arraytellers[0];
+}
+void add_costumer1(vector *v/*vector of teller structs*/, struct costumer c)
 {
 	
 	int* mins = minindex(v);
@@ -72,7 +76,6 @@ void add_costumer(vector *v/*vector of teller structs*/, struct costumer c)
 	//t->tline mein add krna hai c ko
 	// vector_add(v->tline, &c);
 }
-
 //TYPE 2
 int delete_costumer(int currentTime, struct costumer *c)
 {
@@ -215,9 +218,9 @@ int main(int argc, char** args)
 		if(head->NextNode == NULL)
 			break;
 		Node *curr = head->NextNode;
-		head->NextNode = curr->NextNode;
-		clk = curr->CurrEvent.eventtime;
-		
+		head->NextNode = curr->NextNode;	//removing the head of EventQueue
+		clk = curr->CurrEvent.eventtime;	//updating clock
+		// curr->CurrEvent.fun_ptr(arraytellers, head, curr);	//all tellers, EventQueue, File
 		printf("Event completed %f\n", clk);
 		printLinkedList(head);
 	}
