@@ -23,9 +23,11 @@ void enQueue(tellerline *t, struct costumer c)
             queue_resize(t, MAX_SIZE*2);
             // vector_resize(v, v->capacity * 2);
         }
+        printf("add_costumer is calling %d\n", 61);
     if((t->front) == -1)
         (t->front) = 0;
     (t->rear)++;
+    printf("add_costumer is calling %d\n", 62);
     (t->items)[(t->rear)] = c;
     printf("\ninserted;\n");
 }

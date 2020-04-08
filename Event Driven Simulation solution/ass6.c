@@ -18,25 +18,23 @@ Node *head;
 
 
 
-int* minindex(vector *v/*vector of teller structs*/)
+int* minindex(struct teller* arraytellers[], int totaltellers)
 {
-	int length = vector_total(v);
+	int length = totaltellers;//length of arraytellers i.e. total tellers.
 	int sizes[length];
 	for(int i=0; i<length; i++)
 	{
-		 struct teller *t = (struct teller *) vector_get(v, i);
+		 struct teller *t = arraytellers[i];
 		 sizes[i] = queue_total( &(t->tline) );
 	}
+
 	int minvalue = sizes[0];
 	for(int i=1; i<length; i++)
 	{
 		if(sizes[i] < minvalue)
 			minvalue = sizes[i];
 	}
-
-
  	int ret[length];
- 	// int retsize=0;
  	int k=0;
  	for(int i=0; i<length; i++)
  	{
@@ -56,40 +54,47 @@ int* minindex(vector *v/*vector of teller structs*/)
 }
 
 //TYPE 1
-void add_costumer(struct teller* arraytellers[], float clk)//struct teller* arraytellers[0], Node* head, Event e)
+void add_costumer(struct teller* arraytellers[], int totaltellers, float clk)//struct teller* arraytellers[0], Node* head, Event e)
 {
-	// printf("add_costumer is calling %d\n", 10);
-	// Event curr = head->NextNode->CurrEvent; //Event on which we are working
-	// head->NextNode = head->NextNode->NextNode;	//removing the head of EventQueue
-	
-	// int* mins = minindex(arraytellers);
-	// int totalmins=0;
-	// while(mins[totalmins] != -1)
-	// {
-	// 	totalmins++;
-	// }
-	// int rnd = rand()%totalmins;
-	// //now we need to add costumer c in the mins[rnd]-th element of the vector v.
-	// int targetindex = mins[rnd];
-	// enQueue(arraytellers[targetindex]->tline, (struct costumer) *curr.object);
-	// struct teller *t = vector_get(v, targetindex);
-}
-void add_costumer1(vector *v/*vector of teller structs*/, struct costumer c)
-{
-	
-	int* mins = minindex(v);
-	int totalmins = 0;
+	printf("add_costumer is calling %d\n", 1);
+	Event curr = head->NextNode->CurrEvent; //Event on which we are working
+	head->NextNode = head->NextNode->NextNode;	//removing the head of EventQueue
+	printf("add_costumer is calling %d\n", 2);
+	struct costumer c = *((struct costumer *) curr.object);
+	printf("add_costumer is calling %d\n", 3);
+	int* mins = minindex(arraytellers, totaltellers);	//all indices of tellers with minimum costumers 
+	printf("add_costumer is calling %d\n", 4);
+	int totalmins=0;	//size of mins
 	while(mins[totalmins] != -1)
 	{
 		totalmins++;
 	}
+	printf("add_costumer is calling %d\n", 5);
 	int rnd = rand()%totalmins;
 	//now we need to add costumer c in the mins[rnd]-th element of the vector v.
 	int targetindex = mins[rnd];
-	struct teller *t = vector_get(v, targetindex);
-	//t->tline mein add krna hai c ko
-	// vector_add(v->tline, &c);
+	printf("add_costumer is calling %d\n", 6);
+	enQueue(&(arraytellers[targetindex]->tline), c);
+	printf("add_costumer is calling %d\n", 7);
+	// exit(1);
+	// struct teller *t = vector_get(v, targetindex);
 }
+// void add_costumer1(vector *v/*vector of teller structs*/, struct costumer c)
+// {
+	
+// 	int* mins = minindex(v);
+// 	int totalmins = 0;
+// 	while(mins[totalmins] != -1)
+// 	{
+// 		totalmins++;
+// 	}
+// 	int rnd = rand()%totalmins;
+// 	//now we need to add costumer c in the mins[rnd]-th element of the vector v.
+// 	int targetindex = mins[rnd];
+// 	struct teller *t = vector_get(v, targetindex);
+// 	//t->tline mein add krna hai c ko
+// 	// vector_add(v->tline, &c);
+// }
 //TYPE 2
 int delete_costumer(int currentTime, struct costumer *c)
 {
@@ -103,7 +108,7 @@ void nextjob_teller(struct teller *t, vector *v/*vector of teller structs*/)
 }
 
 //TYPE 4
-void idletellercomp(struct teller* arraytellers[], float clk)
+void idletellercomp(struct teller* arraytellers[], int totaltellers, float clk)
 {
 	printf("idle teller completed %d\n", 10);
 }
@@ -186,17 +191,19 @@ int main(int argc, char** args)
 	int k=0;
 	for(k=0; k<totaltellers; k++)
 	{	
-		struct teller t1;
-		t1.idletime = rand()%600;
-		tellerline tl;
-		tellerline_init(&tl);
-		t1.tline = tl; 
-		arraytellers[k] = &t1;
+		// struct teller t2;
+		struct teller *t1 = (struct teller *) malloc(sizeof(struct teller));
+		// = &t2;
+		t1->idletime = rand()%600;
+		// tellerline tl;
+		tellerline_init(&(t1->tline));
+		// t1.tline = tl;
+		arraytellers[k] = t1;
 
 		struct Event e1;
 		e1.typeofevent = 4;
-		e1.eventtime = t1.idletime;
-		e1.object = &t1;
+		e1.eventtime = t1->idletime;
+		e1.object = t1;
 		e1.fun_ptr = &idletellercomp;
 
 		Node *tobeinsert = (Node*) malloc(sizeof(Node));
@@ -234,9 +241,8 @@ int main(int argc, char** args)
 			break;
 		clk = head->NextNode->CurrEvent.eventtime;
 		//Invoking function
-		head->NextNode->CurrEvent.fun_ptr(arraytellers, clk);
+		head->NextNode->CurrEvent.fun_ptr(arraytellers, totaltellers, clk);
 		
-		// curr->CurrEvent.fun_ptr(5);	//all tellers, NodeHead, costumer, 
 		/*
 		for type 1 : add_costumer()
 			arraytellers, 
