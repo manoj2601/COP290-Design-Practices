@@ -1,14 +1,32 @@
 #ifndef ALLSTRUCTS_H
 #define ALLSTRUCTS_H
 
+struct costumer
+{
+	float arrTime; //random
+};
 
+typedef struct tellerline {
+    struct costumer *items;
+    // int capacity;
+    int front;
+    int rear;
+    int total;
+} tellerline;
+
+struct teller
+{
+	tellerline tline;	//queue of the teller
+	float idletime;//random idle time in the range of 1 - 600 seconds.
+};
 
 typedef struct Event
 {
 	int typeofevent;
 	float eventtime;
 	void* object;
-	void (*fun_ptr)(int);
+
+	void (*fun_ptr)(struct teller **, float);
 	/*
 	TYPE 1 : Arrival of an costumer, 
 				call the funtion add_costumer() add that costumer at the end of a teller line
@@ -40,23 +58,6 @@ typedef struct Node
 	struct Node *NextNode;
 } Node;
 
-struct costumer
-{
-	float arrTime; //random
-};
 
-typedef struct tellerline {
-    struct costumer *items;
-    // int capacity;
-    int front;
-    int rear;
-    int total;
-} tellerline;
-
-struct teller
-{
-	tellerline tline;	//queue of the teller
-	float idletime;//random idle time in the range of 1 - 600 seconds.
-};
 
 #endif

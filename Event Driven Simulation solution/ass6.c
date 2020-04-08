@@ -12,7 +12,7 @@
 // {
 // 	float arrTime; //random
 // };
-
+Node *head;
 
 
 
@@ -56,9 +56,23 @@ int* minindex(vector *v/*vector of teller structs*/)
 }
 
 //TYPE 1
-void add_costumer(struct teller* arraytellers[0], Node* head, Event e)
+void add_costumer(struct teller* arraytellers[], float clk)//struct teller* arraytellers[0], Node* head, Event e)
 {
-	struct teller *t = arraytellers[0];
+	// printf("add_costumer is calling %d\n", 10);
+	// Event curr = head->NextNode->CurrEvent; //Event on which we are working
+	// head->NextNode = head->NextNode->NextNode;	//removing the head of EventQueue
+	
+	// int* mins = minindex(arraytellers);
+	// int totalmins=0;
+	// while(mins[totalmins] != -1)
+	// {
+	// 	totalmins++;
+	// }
+	// int rnd = rand()%totalmins;
+	// //now we need to add costumer c in the mins[rnd]-th element of the vector v.
+	// int targetindex = mins[rnd];
+	// enQueue(arraytellers[targetindex]->tline, (struct costumer) *curr.object);
+	// struct teller *t = vector_get(v, targetindex);
 }
 void add_costumer1(vector *v/*vector of teller structs*/, struct costumer c)
 {
@@ -89,9 +103,9 @@ void nextjob_teller(struct teller *t, vector *v/*vector of teller structs*/)
 }
 
 //TYPE 4
-void idletellercomp()
+void idletellercomp(struct teller* arraytellers[], float clk)
 {
-
+	printf("idle teller completed %d\n", 10);
 }
 
 void printLinkedList(Node *head)
@@ -155,6 +169,7 @@ void insertNode(Node *head, Node *tobeinsert)
 		}
 }
 
+
 int main(int argc, char** args)
 {
 	int totalcostumers = atoi(args[1]);
@@ -166,7 +181,7 @@ int main(int argc, char** args)
 	vector_init (&equeue);
 	//creating an array of tellers
 	struct teller* arraytellers[totaltellers]; //array of all tellers
-	Node *head = (Node*) malloc(sizeof(Node)); //Head of  EventQueue Head is nothing but a node with CurrEvent NULL, first Node of LinkedList starts with head->NextNode.
+	head = (Node*) malloc(sizeof(Node)); //Head of  EventQueue Head is nothing but a node with CurrEvent NULL, first Node of LinkedList starts with head->NextNode.
 	head->NextNode = NULL;
 	int k=0;
 	for(k=0; k<totaltellers; k++)
@@ -211,16 +226,26 @@ int main(int argc, char** args)
 		insertNode(head, tobeinsert);
 	}
 	printLinkedList(head);
-
+	// exit(1);
 	float clk=0;
 	while(true)
 	{
 		if(head->NextNode == NULL)
 			break;
-		Node *curr = head->NextNode;
-		head->NextNode = curr->NextNode;	//removing the head of EventQueue
-		clk = curr->CurrEvent.eventtime;	//updating clock
-		// curr->CurrEvent.fun_ptr(arraytellers, head, curr);	//all tellers, EventQueue, File
+		clk = head->NextNode->CurrEvent.eventtime;
+		//Invoking function
+		head->NextNode->CurrEvent.fun_ptr(arraytellers, clk);
+		
+		// curr->CurrEvent.fun_ptr(5);	//all tellers, NodeHead, costumer, 
+		/*
+		for type 1 : add_costumer()
+			arraytellers, 
+		for type 2 : delete_costumer()
+			FILE* (to print total time)
+		for type 3 : teller_completed_a_costumer()
+			tellersarray, head
+		fun_ptr(struct teller **, Node *head)
+		*/
 		printf("Event completed %f\n", clk);
 		printLinkedList(head);
 	}

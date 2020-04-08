@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "tellerline.h"
+#include "allstructs.h"
 #define MAX_SIZE atoi("100")
 // void vector_init(vector *v)
 void tellerline_init (tellerline *t)
