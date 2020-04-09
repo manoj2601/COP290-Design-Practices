@@ -4,6 +4,8 @@
 struct costumer
 {
 	float arrTime; //random
+	float WaitingTime;
+	float serviceTime;
 };
 
 typedef struct tellerline {
@@ -18,6 +20,8 @@ struct teller
 {
 	tellerline tline;	//queue of the teller
 	float idletime;//random idle time in the range of 1 - 600 seconds.
+	float totalIdleTime;
+	float totalServiceTime;
 };
 
 typedef struct Event
@@ -26,7 +30,7 @@ typedef struct Event
 	float eventtime;
 	void* object;
 
-	void (*fun_ptr)(struct teller **, int, float, float);
+	void (*fun_ptr)(struct teller **, int, float, float, FILE*);
 	/*
 	TYPE 1 : Arrival of an costumer, 
 				call the funtion add_costumer() add that costumer at the end of a teller line
