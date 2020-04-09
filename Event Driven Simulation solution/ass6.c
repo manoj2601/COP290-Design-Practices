@@ -14,9 +14,39 @@
 // };
 Node *head;
 
+void insertNode(Node *head, Node *tobeinsert)
+{
+		if(head->NextNode == NULL) //zero elements in the EventQueue
+		{
+			head->NextNode = tobeinsert;
+			return;
+		}
 
-
-
+		bool inend=false;
+		Node *curr = head->NextNode;
+		Node *prev = head;
+		while(curr->CurrEvent.eventtime < tobeinsert->CurrEvent.eventtime)
+		{
+			if(curr->NextNode == NULL)
+			{
+				inend = true;
+				break;
+			}
+			prev = curr;
+			curr = curr->NextNode;
+		}
+		if(inend)
+		{
+			curr->NextNode = tobeinsert;
+			return;
+		}
+		else
+		{
+			tobeinsert->NextNode = curr;
+			prev->NextNode = tobeinsert;
+			return;
+		}
+}
 
 int* minindex(struct teller* arraytellers[], int totaltellers)
 {
@@ -54,7 +84,7 @@ int* minindex(struct teller* arraytellers[], int totaltellers)
 }
 
 //TYPE 1
-void add_costumer(struct teller* arraytellers[], int totaltellers, float clk)//struct teller* arraytellers[0], Node* head, Event e)
+void add_costumer(struct teller* arraytellers[], int totaltellers, float clk, float averageServiceTime)//struct teller* arraytellers[0], Node* head, Event e)
 {
 	Event curr = head->NextNode->CurrEvent; //Event on which we are working
 	head->NextNode = head->NextNode->NextNode;	//removing the head of EventQueue
@@ -72,27 +102,107 @@ void add_costumer(struct teller* arraytellers[], int totaltellers, float clk)//s
 }
 
 //TYPE 2
-int delete_costumer(int currentTime, struct costumer *c)
-{
-	return (currentTime - c->arrTime);
-}
-
-//TYPE 3
-void nextjob_teller(struct teller *t, vector *v/*vector of teller structs*/)
-{
-	
-}
-
-//TYPE 4
-void idletellercomp(struct teller* arraytellers[], int totaltellers, float clk)
+void delete_costumer(struct teller* arraytellers[], int totaltellers, float clk, float averageServiceTime)
 {
 	Event curr = head->NextNode->CurrEvent; //Event on which we are working
 	head->NextNode = head->NextNode->NextNode;	//removing the head of EventQueue
-	struct teller t = *((struct teller *) curr.object);
-	//gather statices about the teller t
-	 
+	struct costumer c = *((struct costumer *) curr.object);
+	//gather information about the costumer
+	float totaltime = clk - c.arrTime;
+}
 
-	printf("idle teller completed %d\n", 10);
+//TYPE 3
+void nextjob_teller(struct teller* arraytellers[], int totaltellers, float clk, float averageServiceTime)
+{
+	Event curr = head->NextNode->CurrEvent; //Event on which we are working
+	head->NextNode = head->NextNode->NextNode;	//removing the head of EventQueue
+	struct teller *t = ((struct teller *) curr.object);
+	//gather statics about the teller
+
+	//assigning new work to the teller
+	if(queue_total(&(t->tline)) != 0)
+	{
+		struct costumer c = deQueue(&(t->tline));
+		float serviceTime = 2*averageServiceTime*rand()/(RAND_MAX + 0.0);
+		//insert delete_costumer Event in EventQueue
+		struct Event e1;
+		e1.typeofevent = 2;
+		e1.eventtime = clk + serviceTime;
+		e1.object = &c;
+		e1.fun_ptr = &delete_costumer;
+		Node *tobeinsert = (Node*) malloc(sizeof(Node));
+		tobeinsert->CurrEvent = e1;
+		tobeinsert->NextNode = NULL;
+		insertNode(head, tobeinsert);
+		//Insert nextjob_teller Event in EventQueue
+		struct Event e2;
+		e2.typeofevent = 3;
+		e2.eventtime = clk + serviceTime;
+		e2.object = t;
+		e2.fun_ptr = &nextjob_teller;
+		Node *tobeinsert2 = (Node*) malloc(sizeof(Node));
+		tobeinsert2->CurrEvent = e2;
+		tobeinsert2->NextNode = NULL;
+		insertNode(head, tobeinsert2);	
+	}
+	else
+	{
+		int nonzerotellers[totaltellers];
+		int sizenzerots=0;
+		for(int i=0; i<totaltellers; i++)
+		{
+			if(queue_total(&(arraytellers[i]->tline)) != 0)
+			{
+				nonzerotellers[sizenzerots] = i;
+				sizenzerots++;
+			}
+		}
+		if(sizenzerots != 0)
+		{
+			int r = rand()%sizenzerots;
+			struct costumer c = deQueue(&(arraytellers[r]->tline));
+			float serviceTime = 2*averageServiceTime*rand()/(RAND_MAX + 0.0);
+			//insert delete_costumer Event in EventQueue
+			struct Event e1;
+			e1.typeofevent = 2;
+			e1.eventtime = clk + serviceTime;
+			e1.object = &c;
+			e1.fun_ptr = &delete_costumer;
+			Node *tobeinsert = (Node*) malloc(sizeof(Node));
+			tobeinsert->CurrEvent = e1;
+			tobeinsert->NextNode = NULL;
+			insertNode(head, tobeinsert);
+			//Insert nextjob_teller Event in EventQueue
+			struct Event e2;
+			e2.typeofevent = 3;
+			e2.eventtime = clk + serviceTime;
+			e2.object = t;
+			e2.fun_ptr = &nextjob_teller;
+			Node *tobeinsert2 = (Node*) malloc(sizeof(Node));
+			tobeinsert2->CurrEvent = e2;
+			tobeinsert2->NextNode = NULL;
+			insertNode(head, tobeinsert2);
+		}
+		else
+		{
+			// struct teller *t1 = (struct teller *) malloc(sizeof(struct teller));
+			t->idletime = rand()%150;
+			// tellerline_init(&(t->tline));
+			// arraytellers[k] = t;
+
+			struct Event e1;
+			e1.typeofevent = 3;
+			e1.eventtime = clk + t->idletime;
+			e1.object = t;
+			e1.fun_ptr = &nextjob_teller;
+			Node *tobeinsert = (Node*) malloc(sizeof(Node));
+			tobeinsert->CurrEvent = e1;
+			tobeinsert->NextNode = NULL;
+			insertNode(head, tobeinsert);
+		}
+
+	}
+
 }
 
 void printLinkedList(Node *head)
@@ -112,57 +222,15 @@ void printLinkedList(Node *head)
 	printf("last %d, %f\n\n", temp.CurrEvent.typeofevent, temp.CurrEvent.eventtime);
 }
 
-void insertNode(Node *head, Node *tobeinsert)
-{
-		//without sorting
-		// Node *temp = head;
-		// while(temp->NextNode != NULL)
-		// {
-		// 	temp = (temp->NextNode);
-		// }
-		// temp->NextNode = tobeinsert;
 
-
-		//with sorting
-		if(head->NextNode == NULL) //zero elements in the EventQueue
-		{
-			head->NextNode = tobeinsert;
-			return;
-		}
-
-		bool inend=false;
-		Node *curr = head->NextNode;
-		Node *prev = head;
-		while(curr->CurrEvent.eventtime < tobeinsert->CurrEvent.eventtime)
-		{
-			if(curr->NextNode == NULL)
-			{
-				inend = true;
-				break;
-			}
-			prev = curr;
-			curr = curr->NextNode;
-		}
-		if(inend)
-		{
-			curr->NextNode = tobeinsert;
-			return;
-		}
-		else
-		{
-			tobeinsert->NextNode = curr;
-			prev->NextNode = tobeinsert;
-			return;
-		}
-}
 
 
 int main(int argc, char** args)
 {
 	int totalcostumers = atoi(args[1]);
 	int totaltellers = atoi(args[2]);
-	float simulationTime = atof(args[3]);
-	float averageServiceTime = atof(args[4]);
+	float simulationTime = atof(args[3])*60;
+	float averageServiceTime = atof(args[4])*60;
 	
 	vector equeue;
 	vector_init (&equeue);
@@ -180,10 +248,10 @@ int main(int argc, char** args)
 		arraytellers[k] = t1;
 
 		struct Event e1;
-		e1.typeofevent = 4;
+		e1.typeofevent = 3;
 		e1.eventtime = t1->idletime;
 		e1.object = t1;
-		e1.fun_ptr = &idletellercomp;
+		e1.fun_ptr = &nextjob_teller;
 
 		Node *tobeinsert = (Node*) malloc(sizeof(Node));
 		tobeinsert->CurrEvent = e1;
@@ -191,6 +259,8 @@ int main(int argc, char** args)
 		insertNode(head, tobeinsert);
 	}
 	printLinkedList(head);
+	printf("initially all tellers added\n");
+	sleep(3);
 	//All tellers event inserted
 
 	for(k=0; k<totalcostumers; k++)
@@ -212,101 +282,20 @@ int main(int argc, char** args)
 		insertNode(head, tobeinsert);
 	}
 	printLinkedList(head);
-	// exit(1);
+	printf("initially all costumers added\n");
+	sleep(3);
+	// Execution start
 	float clk=0;
-	while(true)
+	while(clk <= simulationTime)
 	{
 		if(head->NextNode == NULL)
 			break;
 		clk = head->NextNode->CurrEvent.eventtime;
 		//Invoking function
-		head->NextNode->CurrEvent.fun_ptr(arraytellers, totaltellers, clk);
-		
-		/*
-		for type 1 : add_costumer()
-			arraytellers, 
-		for type 2 : delete_costumer()
-			FILE* (to print total time)
-		for type 3 : teller_completed_a_costumer()
-			tellersarray, head
-		fun_ptr(struct teller **, Node *head)
-		*/
+		head->NextNode->CurrEvent.fun_ptr(arraytellers, totaltellers, clk, averageServiceTime);
 		printf("Event completed %f\n", clk);
-		printLinkedList(head);
 	}
 	exit(1);
-
-
-	// vector v;
-	// vector_init(&v);
-	// Node *head = (Node*) malloc(sizeof(Node));
-	// struct teller t1;
-	// t1.idletime = rand()%600;
-	// vector_add(&v, &t1);
-
-	// struct Event e1;
-	// e1.typeofevent = 4;
-	// e1.eventtime = t1.idletime;
-	// e1.object = &t1;
-	// e1.fun_ptr = &idletellercomp;
-	// // enQueueEvent(&eventq, e1);
-	// // Node head1 = {e1, NULL};
-	// head->CurrEvent = e1;
-	// head->NextNode = NULL;
-	
-	// struct teller t2;
-	// t2.idletime = rand()%600;
-	// vector_add(&v, &t2);
-
-	// struct Event e2;// = {4, t1.idletime, (void* ) t1, &add_costumer};
-	// e2.typeofevent = 4;
-	// e2.eventtime = t2.idletime;
-	// e2.object = &t2;
-	// e2.fun_ptr = &idletellercomp;
-	// Node *temp = (Node*) malloc(sizeof(Node));
-	// temp->CurrEvent = e2;
-	// temp->NextNode = NULL;
-	// head->NextNode = temp;
-
-	// printf("Manoj Kumar ne start kr diya\n");
-	
-	// printf("Manoj Kumar ne start kr diya\n");
-
-	// struct teller t3;
-	// t3.idletime = rand()%600;
-	// vector_add(&v, &t3);
-
-	// struct Event e3;// = {4, t1.idletime, (void* ) t1, &add_costumer};
-	// e3.typeofevent = 4;
-	// e3.eventtime = t3.idletime;
-	// e3.object = &t3;
-	// e3.fun_ptr = &idletellercomp;
-
-	// Node *temp2 = (Node*) malloc(sizeof(Node));
-	// temp2->CurrEvent = e3;
-	// temp2->NextNode = NULL;
-	// temp->NextNode = temp2;
-	// int i=0;
-	// for(i=0; i<3; i++)
-	// 	printf("added element is : %f\n", ((struct teller *) vector_get(&v, i))->idletime);
-
-	// printf("lol11 %d, %d\n", head->CurrEvent.typeofevent, head->CurrEvent.eventtime);
-	// printf("lol11 %d, %d\n", head->NextNode->CurrEvent.typeofevent, head->NextNode->CurrEvent.eventtime);
-	// printf("lol11 %d, %d\n", head->NextNode->NextNode->CurrEvent.typeofevent, head->NextNode->NextNode->CurrEvent.eventtime);
-	// printLinkedList(head);
-	// exit(1);
-
-	// struct costumer c1 = {3.00};
-	// tellerline l1;
-	// tellerline_init (&l1);
-	// enQueue(&l1, c1);
-
-	// vector v;
-	// vector_init(&v);
-
-	// struct costumer costumerarray [totalcostumers];
-	// struct teller tellerarray [totaltellers];
-	// // eventQueue = L
 
 
 	// float arrTime = simulationTime * rand()/float(RAND_MAX);
