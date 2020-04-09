@@ -120,7 +120,7 @@ void nextjob_teller(struct teller* arraytellers[], int totaltellers, float clk, 
 	//gather statics about the teller
 
 	//assigning new work to the teller
-	if(queue_total(&(t->tline)) != 0)
+	if(queue_total(&(t->tline)) > 0)
 	{
 		struct costumer c = deQueue(&(t->tline));
 		float serviceTime = 2*averageServiceTime*rand()/(RAND_MAX + 0.0);
@@ -151,7 +151,7 @@ void nextjob_teller(struct teller* arraytellers[], int totaltellers, float clk, 
 		int sizenzerots=0;
 		for(int i=0; i<totaltellers; i++)
 		{
-			if(queue_total(&(arraytellers[i]->tline)) != 0)
+			if(queue_total(&(arraytellers[i]->tline)) > 0)
 			{
 				nonzerotellers[sizenzerots] = i;
 				sizenzerots++;
@@ -160,7 +160,7 @@ void nextjob_teller(struct teller* arraytellers[], int totaltellers, float clk, 
 		if(sizenzerots != 0)
 		{
 			int r = rand()%sizenzerots;
-			struct costumer c = deQueue(&(arraytellers[r]->tline));
+			struct costumer c = deQueue(&(arraytellers[nonzerotellers[r]]->tline));
 			float serviceTime = 2*averageServiceTime*rand()/(RAND_MAX + 0.0);
 			//insert delete_costumer Event in EventQueue
 			struct Event e1;
@@ -294,6 +294,7 @@ int main(int argc, char** args)
 		//Invoking function
 		head->NextNode->CurrEvent.fun_ptr(arraytellers, totaltellers, clk, averageServiceTime);
 		printf("Event completed %f\n", clk);
+		// sleep(1);
 	}
 	exit(1);
 
