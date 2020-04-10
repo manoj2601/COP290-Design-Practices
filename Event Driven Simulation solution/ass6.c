@@ -114,7 +114,7 @@ int* minindex(struct teller* arraytellers[], int totaltellers)
 }
 
 //TYPE 1
-void add_costumer(struct teller* arraytellers[], int totaltellers, float clk, float averageServiceTime, FILE* ft)//struct teller* arraytellers[0], Node* head, Event e)
+void add_costumer(struct teller* arraytellers[], int totaltellers, float clk, float averageServiceTime, FILE* ft, FILE *ft2)//struct teller* arraytellers[0], Node* head, Event e)
 {
 	printf("adding costumer\n");
 	Event curr = head->NextNode->CurrEvent; //Event on which we are working
@@ -131,7 +131,7 @@ void add_costumer(struct teller* arraytellers[], int totaltellers, float clk, fl
 }
 
 //TYPE 2
-void delete_costumer(struct teller* arraytellers[], int totaltellers, float clk, float averageServiceTime, FILE* ft)
+void delete_costumer(struct teller* arraytellers[], int totaltellers, float clk, float averageServiceTime, FILE* ft, FILE *ft2)
 {
 	printf("deleting costumer\n");
 	
@@ -149,7 +149,7 @@ void delete_costumer(struct teller* arraytellers[], int totaltellers, float clk,
 }
 
 //TYPE 3
-void nextjob_teller(struct teller* arraytellers[], int totaltellers, float clk, float averageServiceTime, FILE* ft)
+void nextjob_teller(struct teller* arraytellers[], int totaltellers, float clk, float averageServiceTime, FILE* ft, FILE *ft2)
 {
 	printf("teller looking for next job\n");	
 	Event curr = head->NextNode->CurrEvent; //Event on which we are working
@@ -241,12 +241,16 @@ void nextjob_teller(struct teller* arraytellers[], int totaltellers, float clk, 
 		else
 		{
 			printf("sone ka time ho gyaa\n");
-			t->idletime = 20;//rand()%150;
+			t->idletime = 70;//rand()%150;
+			fprintf(ft2, "totalIdleTime : %f totalServiceTime %f clk %f\n", t->totalIdleTime, t->totalServiceTime, clk);
 			struct Event e1;
 			e1.typeofevent = 3;
 			e1.eventtime = clk + t->idletime;
-			if(e1.eventtime > 60)
-				t->totalIdleTime += 60 - clk;
+			// t->totalIdleTime += t->idletime;
+			if(e1.eventtime > 120)
+			{
+				t->totalIdleTime += 120-clk;
+			}
 			else t->totalIdleTime += t->idletime;
 			e1.object = t;
 			e1.fun_ptr = &nextjob_teller;
@@ -295,7 +299,7 @@ int main(int argc, char** args)
 		Node *tobeinsert = (Node*) malloc(sizeof(Node));
 		tobeinsert->CurrEvent = e1;
 		tobeinsert->NextNode = NULL;
-		insertNode( tobeinsert);
+		insertNode(tobeinsert);
 	}
 	//All tellers event inserted
 
@@ -322,27 +326,28 @@ int main(int argc, char** args)
 	FILE *ft = fopen("output.txt", "w");
 	printf("EventQueue initially\n");
 	printLinkedList();
+	FILE *ft2 = fopen("output2.txt", "w");
 	while(clk <= simulationTime)
 	{
 		if(head->NextNode == NULL)
 			break;
-		
 		clk = head->NextNode->CurrEvent.eventtime;
+		if(clk >simulationTime) break;
 		//Invoking function
 		if(head->NextNode->CurrEvent.fun_ptr == &delete_costumer)
 			{
 				printf("delete_costumer starting\n");
-				delete_costumer(arraytellers, totaltellers, clk, averageServiceTime, ft);
+				delete_costumer(arraytellers, totaltellers, clk, averageServiceTime, ft, ft2);
 			}
 		else if(head->NextNode->CurrEvent.fun_ptr == &add_costumer)
 			{
 				printf("add_costumer starting\n");
-				add_costumer(arraytellers, totaltellers, clk, averageServiceTime, ft);
+				add_costumer(arraytellers, totaltellers, clk, averageServiceTime, ft, ft2);
 			}
 		else if (head->NextNode->CurrEvent.fun_ptr == &nextjob_teller)
 			{
 				printf("nextjob_teller starting\n");
-				nextjob_teller(arraytellers, totaltellers, clk, averageServiceTime, ft);
+				nextjob_teller(arraytellers, totaltellers, clk, averageServiceTime, ft, ft2);
 				printLinkedList();
 			}
 		
@@ -351,7 +356,7 @@ int main(int argc, char** args)
 		printf("Event completed %f\n", clk);
 		
 	}
-	FILE *ft2 = fopen("output2.txt", "w");
+	
 	fprintf(ft2, "totalIdleTime           totalserviceTime\n");
 	for(int i=0; i<totaltellers; i++)
 	{
