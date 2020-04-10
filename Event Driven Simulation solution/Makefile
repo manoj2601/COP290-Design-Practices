@@ -17,6 +17,10 @@ all: ass6.c vector.c vector.c tellerline.h tellerline.c EventQueue.h EventQueue.
 clean:
 	rm -rf *.o
 	rm -f main
+	rm -f costumers.txt
+	rm -f tellers.txt
+	rm -f output.txt
+	rm -f output2.txt
 
 run:
 	./main 12 12 12 12
