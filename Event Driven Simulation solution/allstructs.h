@@ -30,7 +30,7 @@ typedef struct Event
 	float eventtime;
 	void* object;
 
-	void (*fun_ptr)(struct teller **, int, float, float, FILE*, FILE*, float);
+	void (*fun_ptr)(struct teller **, int, float, float, FILE*, FILE*, float, void** );
 	// function pointer; //it will be used to invoke a function.
 } Event;
 

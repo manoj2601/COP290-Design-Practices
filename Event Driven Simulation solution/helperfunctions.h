@@ -1,5 +1,5 @@
-#ifndef HELPERSEPQUEUE_H
-#define HELPERSEPQUEUE_H
+#ifndef HELPERFUNCTIONS_H
+#define HELPERFUNCTIONS_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -105,13 +105,7 @@ void add_costumer2(struct teller* arrayTellers2[], int totaltellers, float clk, 
 	Event curr = head3->NextNode->CurrEvent; //Event on which we are working
 	head3->NextNode = head3->NextNode->NextNode;	//removing the head of EventQueue
 	struct costumer *c = ((struct costumer *) curr.object);
-	int* mins = minindex(arrayTellers2, totaltellers);	//all indices of tellers with minimum costumers 
-	int totalmins=0;	//size of mins
-	while(mins[totalmins] != -1)
-		totalmins++;
-	int rnd = rand()%totalmins;
-	//now we need to add costumer c in the mins[rnd]-th element of the vector v.
-	int targetindex = mins[rnd];
+	int targetindex = 0; //add all the costumers in the same tellerline (0th)
 	enQueue(&(arrayTellers2[targetindex]->tline), c);
 }
 

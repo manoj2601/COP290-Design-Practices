@@ -9,57 +9,31 @@
 #include "tellerline.h"
 #include "EventQueue.h"
 #include "allstructs.h"
-#include "helperSepQueue.h"
+#include "helperfunctions.h"
 
 
-void Common_Queue(int totalcostumers, int totaltellers, float simulationTime, float averageServiceTime, struct teller ** arraytellers, struct costumer ** arraycostumers, FILE* output)
+void Common_Queue(int totalcostumers, int totaltellers, float simulationTime, float averageServiceTime, struct teller ** arrayTellers2, struct costumer ** arraycostumers2, FILE* output)
 {
 	float clk=0;
 	FILE *ft = fopen("costumersStaticesCommonLine.txt", "w");
 	FILE *ft2 = fopen("tellersStaticesCommonLine.txt", "w");
 	fprintf(ft, "arrTime\t\tWaitingTime\tserviceTime\tTotalTimeinBank\n");
 	totalServedCostumers2 = 0;
-	while(clk <= simulationTime)
-	{
-		if(head2->NextNode == NULL)
-			break;
-		clk = head2->NextNode->CurrEvent.eventtime;
-		if(clk >simulationTime) {
-			clk = simulationTime;
-			break;
-		}
-		//Invoking function
-		if(head2->NextNode->CurrEvent.fun_ptr == &delete_costumer)
-			{
-				printf("delete_costumer starting\n");
-			}
-		else if(head2->NextNode->CurrEvent.fun_ptr == &add_costumer1)
-			{
-				printf("add_costumer1 starting\n");
-			}
-		else if (head2->NextNode->CurrEvent.fun_ptr == &nextjob_teller1)
-			{
-				printf("nextjob_teller1 starting\n");
-			}		
-		Event eve = head2->NextNode->CurrEvent;
-		eve.fun_ptr(arraytellers, totaltellers, clk, averageServiceTime, ft, ft2, simulationTime);
-		printf("Event completed %f\n", clk);
-		
-	}
-	
+	simulation(arrayTellers2, totaltellers, clk, averageServiceTime, ft, ft2, simulationTime, head2);
 	fprintf(ft2, "totalIdleTime\ttotalserviceTime\n");
 	for(int i=0; i<totaltellers; i++)
 	{
-		fprintf(ft2, "%f\t%f\n", arraytellers[i]->totalIdleTime, arraytellers[i]->totalServiceTime);
+		fprintf(ft2, "%f\t%f\n", arrayTellers2[i]->totalIdleTime, arrayTellers2[i]->totalServiceTime);
 	}
 	fclose(ft);
 	fclose(ft2);
-	FILE *ft3 = fopen("costumersStaticesSepLine.txt", "r");
+	FILE *ft3 = fopen("costumersStaticesCommonLine.txt", "r");
 	if(ft3 == NULL)
 	{
-		printf("experiment failed\n");
+		printf("experiment failed2\n");
 		exit(1);
 	}
+	//printing output.txt
 	char str[20];
 	for(int i=0; i<4; i++)
 		fscanf(ft3,"%s", str);
@@ -110,7 +84,6 @@ void Common_Queue(int totalcostumers, int totaltellers, float simulationTime, fl
 	fprintf(output, "Maximum Waiting Time of a Costumer : %f\n", MaxWaitingTime);
 	fprintf(output, "Total ServiceTime by all tellers : %f\n", totalServiceTime);
 	fprintf(output, "Total IdleTime by all tellers : %f\n", totalIdleTime);
-	exit(1);
 	printf("clk is : %f\n", clk);
 }
 
@@ -121,8 +94,10 @@ int main(int argc, char** args)
 	float simulationTime = atof(args[3])*60;
 	float averageServiceTime = atof(args[4])*60;
 	//creating an array of tellers
-	struct teller* arraytellers[totaltellers]; //array of all tellers
-	struct costumer* arraycostumers[totalcostumers];
+	struct teller* arrayTellers1[totaltellers]; //array of all tellers
+	struct teller* arrayTellers2[totaltellers]; //array of all tellers
+	struct costumer* arraycostumers1[totalcostumers];
+	struct costumer* arraycostumers2[totalcostumers];
 	head2 = (Node*) malloc(sizeof(Node)); //head2 of  EventQueue head2 is nothing but a node with CurrEvent NULL, first Node of LinkedList starts with head2->NextNode.
 	head2->NextNode = NULL;
 	head = (Node*) malloc(sizeof(Node)); //head of  EventQueue head is nothing but a node with CurrEvent NULL, first Node of LinkedList starts with head2->NextNode.
@@ -130,51 +105,90 @@ int main(int argc, char** args)
 	int k=0;
 	for(k=0; k<totaltellers; k++)
 	{	
-		// struct teller t2;
+		// struct teller t1;
 		struct teller *t1 = (struct teller *) malloc(sizeof(struct teller));
 		float rndmtime = rand()%600;
 		t1->idletime = rndmtime;
 		t1->totalIdleTime = rndmtime;
 		t1->totalServiceTime = 0;
 		tellerline_init(&(t1->tline));
-		arraytellers[k] = t1;
+		arrayTellers1[k] = t1;
 
 		struct Event e1; //teller event
 		e1.typeofevent = 3; //teller event
 		e1.eventtime = t1->idletime; //teller idle time
 		e1.object = t1; //teller ka object
-		e1.fun_ptr = &nextjob_teller1; //nextjob_teller1 ko call krega
+		e1.fun_ptr = (void *) &nextjob_teller; //nextjob_teller ko call krega
 
 		Node *tobeinsert = (Node*) malloc(sizeof(Node));
 		tobeinsert->CurrEvent = e1;
 		tobeinsert->NextNode = NULL;
-		insertNode1(tobeinsert);
+		insertNode(head, tobeinsert);
+
+
+		//struct teller t2
+		struct teller *t2 = (struct teller *) malloc(sizeof(struct teller));
+		t2->idletime = rndmtime;
+		t2->totalIdleTime = rndmtime;
+		t2->totalServiceTime = 0;
+		tellerline_init(&(t2->tline));
+		arrayTellers2[k] = t2;
+
+		struct Event e2; //teller event
+		e2.typeofevent = 3; //teller event
+		e2.eventtime = t2->idletime; //teller idle time
+		e2.object = t2; //teller ka object
+		e2.fun_ptr = (void *) &nextjob_teller; //nextjob_teller ko call krega
+
+		Node *tobeinsert2 = (Node*) malloc(sizeof(Node));
+		tobeinsert2->CurrEvent = e2;
+		tobeinsert2->NextNode = NULL;
+		insertNode(head2, tobeinsert2);
 	}
 	//All tellers event inserted
+
 	for(k=0; k<totalcostumers; k++)
 	{
 		float arrTime = simulationTime * rand()/(RAND_MAX+0.0);
-		struct costumer *c = (struct costumer *) malloc(sizeof(struct costumer));
-		c->arrTime = arrTime;
-		c->WaitingTime = -1;
-		c->serviceTime = -1;
-		arraycostumers[k] = c;
+		
+		struct costumer *c1 = (struct costumer *) malloc(sizeof(struct costumer));
+		c1->arrTime = arrTime;
+		c1->WaitingTime = -1;
+		c1->serviceTime = -1;
+		arraycostumers1[k] = c1;
 		struct Event e1;
 		e1.typeofevent = 1;
-		e1.object = arraycostumers[k];
-		e1.eventtime = c->arrTime;
-		e1.fun_ptr = &add_costumer1;
+		e1.object = arraycostumers1[k];
+		e1.eventtime = c1->arrTime;
+		e1.fun_ptr = (void *) &add_costumer1;
 
 		Node *tobeinsert = (Node*) malloc(sizeof(Node));
 		tobeinsert->CurrEvent = e1;
 		tobeinsert->NextNode = NULL;
-		insertNode1( tobeinsert);
+		insertNode(head, tobeinsert);
+
+
+		struct costumer *c2 = (struct costumer *) malloc(sizeof(struct costumer));
+		c2->arrTime = arrTime;
+		c2->WaitingTime = -1;
+		c2->serviceTime = -1;
+		arraycostumers2[k] = c2;
+		struct Event e2;
+		e2.typeofevent = 1;
+		e2.object = arraycostumers2[k];
+		e2.eventtime = c2->arrTime;
+		e2.fun_ptr = (void *) &add_costumer2;
+
+		Node *tobeinsert2 = (Node*) malloc(sizeof(Node));
+		tobeinsert2->CurrEvent = e2;
+		tobeinsert2->NextNode = NULL;
+		insertNode(head2, tobeinsert2);
 	}
 	FILE* output = fopen("output.txt", "w");
 	//all costumer arrival events inserted.
 	// Execution for separate line for each teller
-	One_Each_Teller(totalcostumers, totaltellers, simulationTime, averageServiceTime, arraytellers, arraycostumers, output);
-	// Common_Queue(totalcostumers, totaltellers, simulationTime, averageServiceTime, arraytellers, arraycostumers, output);
+	// One_Each_Teller(totalcostumers, totaltellers, simulationTime, averageServiceTime, arrayTellers1, arraycostumers1, output);
+	Common_Queue(totalcostumers, totaltellers, simulationTime, averageServiceTime, arrayTellers2, arraycostumers2, output);
 	exit(1);
 }
 

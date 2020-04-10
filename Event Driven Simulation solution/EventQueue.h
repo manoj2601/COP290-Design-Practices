@@ -6,6 +6,6 @@
 Node *head;
 
 Node *head2;
-void insertNode1(Node *, Node *);
+void insertNode(Node *, Node *);
 // void insertNode2(Node *);
 #endif
