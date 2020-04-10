@@ -1,0 +1,8 @@
+type of queuing : one per teller
+total number of tellers : 4
+total number of costumers served : 93
+total time required to serve these costumers : 11864.000000
+average Spent Time by a costumer : 214.167709	standard deviation : 111.607246
+Maximum Waiting Time of a Costumer : 271.090576
+Total ServiceTime by all tellers : 11864.000000
+Total IdleTime by all tellers : 2536.000000
