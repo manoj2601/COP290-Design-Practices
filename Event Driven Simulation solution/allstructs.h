@@ -9,7 +9,7 @@ struct costumer
 };
 
 typedef struct tellerline {
-    struct costumer *items;
+    struct costumer **items;
     // int capacity;
     int front;
     int rear;
@@ -30,7 +30,7 @@ typedef struct Event
 	float eventtime;
 	void* object;
 
-	void (*fun_ptr)(struct teller **, int, float, float, FILE*, FILE*);
+	void (*fun_ptr)(struct teller **, int, float, float, FILE*, FILE*, float);
 	/*
 	TYPE 1 : Arrival of an costumer, 
 				call the funtion add_costumer() add that costumer at the end of a teller line
