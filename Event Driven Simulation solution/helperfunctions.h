@@ -356,4 +356,79 @@ void One_Each_Teller(int totalcostumers, int totaltellers, float simulationTime,
 	printf("clk is : %f\n", clk);
 }
 
+void Common_Queue(int totalcostumers, int totaltellers, float simulationTime, float averageServiceTime, struct teller ** arrayTellers2, struct costumer ** arraycostumers2, FILE* output)
+{
+	float clk=0;
+	FILE *ft = fopen("costumersStaticesCommonLine.txt", "w");
+	FILE *ft2 = fopen("tellersStaticesCommonLine.txt", "w");
+	fprintf(ft, "arrTime\t\tWaitingTime\tserviceTime\tTotalTimeinBank\n");
+	totalServedCostumers2 = 0;
+	simulation(arrayTellers2, totaltellers, clk, averageServiceTime, ft, ft2, simulationTime, head2);
+	fprintf(ft2, "totalIdleTime\ttotalserviceTime\n");
+	for(int i=0; i<totaltellers; i++)
+	{
+		fprintf(ft2, "%f\t%f\n", arrayTellers2[i]->totalIdleTime, arrayTellers2[i]->totalServiceTime);
+	}
+	fclose(ft);
+	fclose(ft2);
+	FILE *ft3 = fopen("costumersStaticesCommonLine.txt", "r");
+	if(ft3 == NULL)
+	{
+		printf("experiment failed2\n");
+		exit(1);
+	}
+	//printing output.txt
+	char str[20];
+	for(int i=0; i<4; i++)
+		fscanf(ft3,"%s", str);
+	float SpentTimeInBank[totalServedCostumers2];
+	float MaxWaitingTime = 0;
+	float totalSpentTimeInBank=0;
+	for(int i=0; i<totalServedCostumers2; i++)
+	{
+			char arrTime[20];
+			fscanf(ft3,"%s", arrTime);//arrival time
+			char waitingTime[20];
+			fscanf(ft3, "%s", waitingTime); //waiting time
+			if(MaxWaitingTime < atof(waitingTime))
+				MaxWaitingTime = atof(waitingTime);
+			char serviceTime[20];
+			SpentTimeInBank[i] = atof(waitingTime)+atof(serviceTime);
+			totalSpentTimeInBank += SpentTimeInBank[i];
+			fscanf(ft3, "%s", serviceTime); //servicetime
+			fscanf(ft3, "%s", str);//clk on that time
+			printf("clk is %s\n", str);
+	}
+	float avgSpentTime = totalSpentTimeInBank/totalServedCostumers2;
+	float stdD = 0;
+	for(int i=0; i<totalServedCostumers2; i++)
+	{
+		stdD += (SpentTimeInBank[i] - avgSpentTime)*(SpentTimeInBank[i] - avgSpentTime);
+	}
+	stdD = stdD/totalServedCostumers2;
+	stdD = sqrt(stdD);
+	FILE* ft4 = fopen("tellersStaticesSepLine.txt", "r");
+	float totalServiceTime = 0;
+	float totalIdleTime = 0;
+	for(int i=0; i<2; i++)
+		fscanf(ft4, "%s", str);
+	for(int i=0; i<totaltellers; i++)
+	{
+		fscanf(ft4, "%s", str);
+		totalIdleTime += atof(str);
+		fscanf(ft4, "%s", str);
+		totalServiceTime += atof(str);		
+	}
+	fprintf(output, "type of queuing : one per teller\n");
+	fprintf(output, "total number of tellers : %d\n", totaltellers);
+	fprintf(output, "total number of costumers served : %d\n", totalServedCostumers2);
+	fprintf(output, "total time required to serve these costumers : %f\n", totalServiceTime);
+	fprintf(output, "average Spent Time by a costumer : %f\t", avgSpentTime);
+	fprintf(output, "standard deviation : %f\n", stdD);
+	fprintf(output, "Maximum Waiting Time of a Costumer : %f\n", MaxWaitingTime);
+	fprintf(output, "Total ServiceTime by all tellers : %f\n", totalServiceTime);
+	fprintf(output, "Total IdleTime by all tellers : %f\n", totalIdleTime);
+	printf("clk is : %f\n", clk);
+}
+
 #endif
