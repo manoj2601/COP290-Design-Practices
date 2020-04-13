@@ -3,7 +3,7 @@
 
 #include "tellerline.h"
 #include "allstructs.h"
-#define MAX_SIZE atoi("100")
+#define MAX_SIZE atoi("330")
 // void vector_init(vector *v)
 void tellerline_init (tellerline *t)
 {
@@ -16,16 +16,21 @@ void tellerline_init (tellerline *t)
 
 void enQueue(tellerline *t, struct costumer *c)
 {
+	printf("In add_costumer24\n");
     t->total = t->total + 1;
     if(t->rear == MAX_SIZE-1)
         {
             printf("\nQueue is full\n");
             queue_resize(t, MAX_SIZE*2);
         }
+        printf("In add_costumer25\n");
     if((t->front) == -1)
         (t->front) = 0;
-    (t->rear)++;    
+    printf("In add_costumer26\n");
+    (t->rear)++;   
+    printf("In add_costumer27\n"); 
     (t->items)[(t->rear)] = c;
+    printf("In add_costumer27\n");
 }
 
 int queue_total(tellerline *v)

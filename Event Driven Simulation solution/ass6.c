@@ -111,8 +111,13 @@ int main(int argc, char** args)
 	FILE* output = fopen("output.txt", "w");
 	//all costumer arrival events inserted.
 	// Execution for separate line for each teller
-	// One_Each_Teller(totalcostumers, totaltellers, simulationTime, averageServiceTime, arrayTellers1, arraycostumers1, output);
+	One_Each_Teller(totalcostumers, totaltellers, simulationTime, averageServiceTime, arrayTellers1, arraycostumers1, output);
+	sleep(3);
+	// free(arraycostumers1);
+	// free(arrayTellers1);
+	printf("half completed\n");
 	Common_Queue(totalcostumers, totaltellers, simulationTime, averageServiceTime, arrayTellers2, arraycostumers2, output);
+	fclose(output);
 	exit(1);
 }
 

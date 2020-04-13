@@ -10,7 +10,6 @@ struct costumer
 
 typedef struct tellerline {
     struct costumer **items;
-    // int capacity;
     int front;
     int rear;
     int total;
