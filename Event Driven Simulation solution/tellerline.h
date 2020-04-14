@@ -2,10 +2,6 @@
 #define TELLERLINE_H
 #include "allstructs.h"
 
-
-
-
-
 void tellerline_init (tellerline *);
 void enQueue(tellerline *, struct costumer *);
 struct costumer* deQueue(tellerline *);

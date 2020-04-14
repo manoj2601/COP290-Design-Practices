@@ -1,0 +1,22 @@
+all:
+	gcc -fPIC -c ./lib/util/tellerline.c -o ./obj/tellerline.o
+	gcc -fPIC -c ./lib/util/EventQueue.c -o ./obj/EventQueue.o
+	gcc -shared -o ./obj/tellerline.so ./obj/tellerline.o 
+	gcc -shared -o ./obj/EventQueue.so ./obj/EventQueue.o
+	gcc -c ./src/ass6.c -o ./obj/ass6.o -lm
+	gcc -o ./bin/qSim ./obj/ass6.o ./obj/tellerline.so ./obj/EventQueue.so -lm
+	sudo mv ./obj/tellerline.so ./obj/EventQueue.so /usr/lib
+	sudo ldconfig
+	#rm -rf *.o
+	
+clean:
+	rm -rf *.o
+	rm -f qSim
+
+run:
+	@while read -r file; do \
+		./bin/qSim $$file; \
+	done < testcase1.txt
+# 	while read -r file; do
+# 	echo ./qSim $$file && ./bin/qSim $$file;
+# 	done <./testcase1

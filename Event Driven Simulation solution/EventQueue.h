@@ -7,5 +7,5 @@ Node *head;
 
 Node *head2;
 void insertNode(Node *, Node *);
-// void insertNode2(Node *);
+void printLinkedList(Node *);
 #endif

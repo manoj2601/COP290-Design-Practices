@@ -1,16 +1,11 @@
-all: ass6.c vector.c vector.c tellerline.h tellerline.c EventQueue.h EventQueue.c allstructs.h helperfunctions.h
-# 	gcc -fPIC -c ass6.c
-	gcc -fPIC -c vector.c
+all:
 	gcc -fPIC -c tellerline.c
 	gcc -fPIC -c EventQueue.c
-# 	gcc -fPIC -c mult.c
-	gcc -shared -o tellerline.so tellerline.o # extra.o divi.o
-	gcc -shared -o vector.so vector.o
+	gcc -shared -o tellerline.so tellerline.o 
 	gcc -shared -o EventQueue.so EventQueue.o
 	gcc -c ass6.c -lm
-	gcc -o qSim ass6.o vector.so tellerline.so EventQueue.so -lm
-	sudo mv tellerline.so vector.so EventQueue.so /usr/lib
-# 	sudo mv myheader.so /usr/lib/
+	gcc -o qSim ass6.o tellerline.so EventQueue.so -lm
+	sudo mv tellerline.so EventQueue.so /usr/lib
 	sudo ldconfig
 	rm -rf *.o
 	
@@ -20,4 +15,12 @@ clean:
 	rm -f *.txt
 
 run:
-	./qSim 100 4 60 2.3
+	rm -f gnuinputs.txt
+	touch gnuinputs.txt
+	@while read -r file; do \
+		./qSim $$file; \
+	done < testcase1
+	gnuplot mygnucode.plt
+# 	while read -r file; do
+# 	echo ./qSim $$file && ./bin/qSim $$file;
+# 	done <./testcase1

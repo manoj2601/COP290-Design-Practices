@@ -16,21 +16,16 @@ void tellerline_init (tellerline *t)
 
 void enQueue(tellerline *t, struct costumer *c)
 {
-	printf("In add_costumer24\n");
     t->total = t->total + 1;
     if(t->rear == MAX_SIZE-1)
-        {
-            printf("\nQueue is full\n");
-            queue_resize(t, MAX_SIZE*2);
-        }
-        printf("In add_costumer25\n");
+    {
+        printf("\nQueue is full\n");
+        queue_resize(t, MAX_SIZE*2);
+    }
     if((t->front) == -1)
         (t->front) = 0;
-    printf("In add_costumer26\n");
-    (t->rear)++;   
-    printf("In add_costumer27\n"); 
+    (t->rear)++;    
     (t->items)[(t->rear)] = c;
-    printf("In add_costumer27\n");
 }
 
 int queue_total(tellerline *v)

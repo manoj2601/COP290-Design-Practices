@@ -15,9 +15,16 @@ typedef struct tellerline {
     int total;
 } tellerline;
 
+
+typedef struct TellerNode {
+	struct costumer *CurrCostumer;
+	struct TellerNode *NextNode;
+} TellerNode;
+
 struct teller
 {
-	tellerline tline;	//queue of the teller
+	// tellerline tline;	//queue of the teller
+	TellerNode *Head;
 	float idletime;//random idle time in the range of 1 - 600 seconds.
 	float totalIdleTime;
 	float totalServiceTime;
@@ -30,7 +37,6 @@ typedef struct Event
 	void* object;
 
 	void (*fun_ptr)(struct teller **, int, float, float, FILE*, FILE*, float, void** );
-	// function pointer; //it will be used to invoke a function.
 } Event;
 
 typedef struct Node
