@@ -4,7 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <math.h>
-#include "tellerline.h"
+//#include "tellerline.h"
 #include "EventQueue.h"
 #include "allstructs.h"
 #include "helperfunctions.h"

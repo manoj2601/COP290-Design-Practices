@@ -160,8 +160,8 @@ void nextjob_teller(struct teller* arrayTellers1[], int totaltellers, float clk,
 		float serviceTime = 2*averageServiceTime*rand()/(RAND_MAX + 0.0);
 		//insert delete_costumer Event in EventQueue
 		//If serviceTime is greater then simulationTime than we will take serviceTime is upto simulationTime.
-		// if(clk + serviceTime > simulationTime)
-		// 	serviceTime = simulationTime-clk;
+		if(clk + serviceTime > simulationTime)
+		 	serviceTime = simulationTime-clk;
 
 		t->totalServiceTime += serviceTime;
 		CurrC->WaitingTime = clk - CurrC->arrTime;
@@ -211,8 +211,8 @@ void nextjob_teller(struct teller* arrayTellers1[], int totaltellers, float clk,
 			arrayTellers1[nonzerotellers[r]]->Head->NextNode = arrayTellers1[nonzerotellers[r]]->Head->NextNode->NextNode;
 			// struct costumer *c = deQueue(&(arrayTellers1[nonzerotellers[r]]->tline));
 			float serviceTime = 2*averageServiceTime*rand()/(RAND_MAX + 0.0);
-			// if(clk + serviceTime > simulationTime)
-			// 	serviceTime = simulationTime-clk;
+			 if(clk + serviceTime > simulationTime)
+			 	serviceTime = simulationTime-clk;
 
 			t->totalServiceTime += serviceTime;
 			CurrC->WaitingTime = clk - CurrC->arrTime;
@@ -244,10 +244,10 @@ void nextjob_teller(struct teller* arrayTellers1[], int totaltellers, float clk,
 		{
 			t->idletime = rand()%150;
 			// printf("teller going for idleTime %f\n", t->idletime);
-			// if(t->idletime + clk > simulationTime)
-			// {
-			// 	t->idletime = simulationTime - clk;
-			// }
+			 if(t->idletime + clk > simulationTime)
+			 {
+			 	t->idletime = simulationTime - clk;
+			 }
 			t->totalIdleTime += t->idletime;
 			struct Event e1;
 			e1.typeofevent = 3;
@@ -302,8 +302,8 @@ void simulation(struct teller* arrayTellers1[], int totaltellers, float clk, flo
 void One_Each_Teller(int totalcostumers, int totaltellers, float simulationTime, float averageServiceTime, struct teller ** arrayTellers1, struct costumer ** arraycostumers, FILE* output)
 {
 	float clk=0;
-	FILE *ft = fopen("output//costumersStaticesSepLine.txt", "w");
-	FILE *ft2 = fopen("output//tellersStaticesSepLine.txt", "w");
+	FILE *ft = fopen("output//costumersStaticsSepLine.txt", "w");
+	FILE *ft2 = fopen("output//tellersStaticsSepLine.txt", "w");
 	fprintf(ft, "arrTime\t\tWaitingTime\tserviceTime\tTotalTimeinBank\n");
 	totalServedCostumers1 = 0;
 	simulation(arrayTellers1, totaltellers, clk, averageServiceTime, ft, ft2, simulationTime, head);
@@ -315,7 +315,7 @@ void One_Each_Teller(int totalcostumers, int totaltellers, float simulationTime,
 	}
 	fclose(ft);
 	fclose(ft2);
-	FILE *ft3 = fopen("output//costumersStaticesSepLine.txt", "r");
+	FILE *ft3 = fopen("output//costumersStaticsSepLine.txt", "r");
 	if(ft3 == NULL)
 	{
 		printf("experiment failed\n");
@@ -351,7 +351,7 @@ void One_Each_Teller(int totalcostumers, int totaltellers, float simulationTime,
 	}
 	stdD = stdD/totalServedCostumers1;
 	stdD = sqrt(stdD);
-	FILE* ft4 = fopen("output//tellersStaticesSepLine.txt", "r");
+	FILE* ft4 = fopen("output//tellersStaticsSepLine.txt", "r");
 	float totalServiceTime = 0;
 	float totalIdleTime = 0;
 	for(int i=0; i<2; i++)
@@ -363,7 +363,7 @@ void One_Each_Teller(int totalcostumers, int totaltellers, float simulationTime,
 		fscanf(ft4, "%s", str);
 		totalServiceTime += atof(str);		
 	}
-	fprintf(output, "type of queuing : one per teller\n");
+	fprintf(output, "type of queuing : Multiple Queuing Model\n");
 	fprintf(output, "total number of tellers : %d\n", totaltellers);
 	fprintf(output, "total number of costumers served : %d\n", totalServedCostumers1);
 	fprintf(output, "total time required to serve these costumers : %f\n", totalServiceTime);
@@ -378,8 +378,8 @@ void One_Each_Teller(int totalcostumers, int totaltellers, float simulationTime,
 void Common_Queue(int totalcostumers, int totaltellers, float simulationTime, float averageServiceTime, struct teller ** arrayTellers2, struct costumer ** arraycostumers2, FILE* output)
 {
 	float clk=0;
-	FILE *ft = fopen("output//costumersStaticesCommonLine.txt", "w");
-	FILE *ft2 = fopen("output//tellersStaticesCommonLine.txt", "w");
+	FILE *ft = fopen("output//costumersStaticsCommonLine.txt", "w");
+	FILE *ft2 = fopen("output//tellersStaticsCommonLine.txt", "w");
 	fprintf(ft, "arrTime\t\tWaitingTime\tserviceTime\tTotalTimeinBank\n");
 	totalServedCostumers2 = 0;
 	simulation(arrayTellers2, totaltellers, clk, averageServiceTime, ft, ft2, simulationTime, head2);
@@ -390,7 +390,7 @@ void Common_Queue(int totalcostumers, int totaltellers, float simulationTime, fl
 	}
 	fclose(ft);
 	fclose(ft2);
-	FILE *ft3 = fopen("output//costumersStaticesCommonLine.txt", "r");
+	FILE *ft3 = fopen("output//costumersStaticsCommonLine.txt", "r");
 	if(ft3 == NULL)
 	{
 		printf("experiment failed2\n");
@@ -426,7 +426,7 @@ void Common_Queue(int totalcostumers, int totaltellers, float simulationTime, fl
 	}
 	stdD = stdD/totalServedCostumers2;
 	stdD = sqrt(stdD);
-	FILE* ft4 = fopen("output//tellersStaticesSepLine.txt", "r");
+	FILE* ft4 = fopen("output//tellersStaticsSepLine.txt", "r");
 	float totalServiceTime = 0;
 	float totalIdleTime = 0;
 	for(int i=0; i<2; i++)
@@ -441,7 +441,7 @@ void Common_Queue(int totalcostumers, int totaltellers, float simulationTime, fl
 	FILE* gnu = fopen("output//gnuinputs.txt", "a");
 	fprintf(gnu, "%d %f\n", totaltellers, avgSpentTime);
 	fclose(gnu);
-	fprintf(output, "type of queuing : single Queue for all\n");
+	fprintf(output, "type of queuing : Single Queuing Model\n");
 	fprintf(output, "total number of tellers : %d\n", totaltellers);
 	fprintf(output, "total number of costumers served : %d\n", totalServedCostumers2);
 	fprintf(output, "total time required to serve these costumers : %f\n", totalServiceTime);
