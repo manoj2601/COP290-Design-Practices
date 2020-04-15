@@ -1,11 +1,9 @@
-all:
-	gcc -fPIC -c ./src/tellerline.c
-	gcc -fPIC -c ./src/EventQueue.c
-	gcc -shared -o tellerline.so tellerline.o 
+all: src/allstructs.h src/ass6.c src/EventQueue.c src/EventQueue.h src/helperfunctions.h src/mygnucode.plt
+	gcc -fPIC -c ./src/EventQueue.c 
 	gcc -shared -o EventQueue.so EventQueue.o
 	gcc -c ./src/ass6.c -lm
-	gcc -o qSim ass6.o tellerline.so EventQueue.so -lm
-	#sudo mv tellerline.so EventQueue.so /usr/lib
+	gcc -o qSim ass6.o EventQueue.so -lm
+	#sudo mv EventQueue.so /usr/lib
 	#sudo ldconfig
 	mv *.o obj
 	cp qSim bin
@@ -19,6 +17,7 @@ clean:
 	mkdir bin
 	mkdir obj
 	mkdir output
+	rm -f qSim
 
 run:
 	rm -f output/gnuinputs.txt output/output.txt

@@ -1,0 +1,323 @@
+type of queuing : Multiple Queuing Model
+total number of tellers : 1
+total number of costumers served : 24
+total time required to serve these costumers : 3016.999756
+average Spent Time by a costumer : 1432.169922	standard deviation : 597.127319
+Maximum Waiting Time of a Costumer : 2459.324707
+Total ServiceTime by all tellers : 3016.999756
+Total IdleTime by all tellers : 583.000000
+
+type of queuing : Single Queuing Model
+total number of tellers : 1
+total number of costumers served : 22
+total time required to serve these costumers : 3016.999756
+average Spent Time by a costumer : 1642.770630	standard deviation : 574.408936
+Maximum Waiting Time of a Costumer : 2408.686523
+Total ServiceTime by all tellers : 3016.999756
+Total IdleTime by all tellers : 583.000000
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 2
+total number of costumers served : 49
+total time required to serve these costumers : 6331.000000
+average Spent Time by a costumer : 1081.392334	standard deviation : 431.022400
+Maximum Waiting Time of a Costumer : 1706.320190
+Total ServiceTime by all tellers : 6331.000000
+Total IdleTime by all tellers : 869.000000
+
+type of queuing : Single Queuing Model
+total number of tellers : 2
+total number of costumers served : 43
+total time required to serve these costumers : 6331.000000
+average Spent Time by a costumer : 1139.892212	standard deviation : 496.137634
+Maximum Waiting Time of a Costumer : 1858.269165
+Total ServiceTime by all tellers : 6331.000000
+Total IdleTime by all tellers : 869.000000
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 3
+total number of costumers served : 81
+total time required to serve these costumers : 9754.000000
+average Spent Time by a costumer : 463.172455	standard deviation : 201.220551
+Maximum Waiting Time of a Costumer : 777.975464
+Total ServiceTime by all tellers : 9754.000000
+Total IdleTime by all tellers : 1046.000000
+
+type of queuing : Single Queuing Model
+total number of tellers : 3
+total number of costumers served : 72
+total time required to serve these costumers : 9754.000000
+average Spent Time by a costumer : 674.572449	standard deviation : 193.916595
+Maximum Waiting Time of a Costumer : 841.251953
+Total ServiceTime by all tellers : 9754.000000
+Total IdleTime by all tellers : 1046.000000
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 4
+total number of costumers served : 84
+total time required to serve these costumers : 12534.000000
+average Spent Time by a costumer : 372.402863	standard deviation : 176.771881
+Maximum Waiting Time of a Costumer : 653.352783
+Total ServiceTime by all tellers : 12534.000000
+Total IdleTime by all tellers : 1866.000000
+
+type of queuing : Single Queuing Model
+total number of tellers : 4
+total number of costumers served : 94
+total time required to serve these costumers : 12534.000000
+average Spent Time by a costumer : 188.545517	standard deviation : 80.598198
+Maximum Waiting Time of a Costumer : 199.772461
+Total ServiceTime by all tellers : 12534.000000
+Total IdleTime by all tellers : 1866.000000
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 5
+total number of costumers served : 98
+total time required to serve these costumers : 14285.000000
+average Spent Time by a costumer : 201.604385	standard deviation : 83.653023
+Maximum Waiting Time of a Costumer : 220.840179
+Total ServiceTime by all tellers : 14285.000000
+Total IdleTime by all tellers : 3715.000000
+
+type of queuing : Single Queuing Model
+total number of tellers : 5
+total number of costumers served : 93
+total time required to serve these costumers : 14285.000000
+average Spent Time by a costumer : 188.530304	standard deviation : 85.951187
+Maximum Waiting Time of a Costumer : 235.112549
+Total ServiceTime by all tellers : 14285.000000
+Total IdleTime by all tellers : 3715.000000
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 6
+total number of costumers served : 99
+total time required to serve these costumers : 13300.615234
+average Spent Time by a costumer : 166.784561	standard deviation : 84.836838
+Maximum Waiting Time of a Costumer : 212.692383
+Total ServiceTime by all tellers : 13300.615234
+Total IdleTime by all tellers : 8299.385742
+
+type of queuing : Single Queuing Model
+total number of tellers : 6
+total number of costumers served : 99
+total time required to serve these costumers : 13300.615234
+average Spent Time by a costumer : 173.083786	standard deviation : 76.172668
+Maximum Waiting Time of a Costumer : 104.917030
+Total ServiceTime by all tellers : 13300.615234
+Total IdleTime by all tellers : 8299.385742
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 7
+total number of costumers served : 99
+total time required to serve these costumers : 12764.648438
+average Spent Time by a costumer : 148.700439	standard deviation : 78.141785
+Maximum Waiting Time of a Costumer : 133.890320
+Total ServiceTime by all tellers : 12764.648438
+Total IdleTime by all tellers : 12435.351562
+
+type of queuing : Single Queuing Model
+total number of tellers : 7
+total number of costumers served : 99
+total time required to serve these costumers : 12764.648438
+average Spent Time by a costumer : 176.226074	standard deviation : 98.573174
+Maximum Waiting Time of a Costumer : 221.293228
+Total ServiceTime by all tellers : 12764.648438
+Total IdleTime by all tellers : 12435.351562
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 8
+total number of costumers served : 100
+total time required to serve these costumers : 14258.431641
+average Spent Time by a costumer : 168.907303	standard deviation : 80.635124
+Maximum Waiting Time of a Costumer : 260.983246
+Total ServiceTime by all tellers : 14258.431641
+Total IdleTime by all tellers : 14541.568359
+
+type of queuing : Single Queuing Model
+total number of tellers : 8
+total number of costumers served : 99
+total time required to serve these costumers : 14258.431641
+average Spent Time by a costumer : 160.271896	standard deviation : 83.532738
+Maximum Waiting Time of a Costumer : 147.291779
+Total ServiceTime by all tellers : 14258.431641
+Total IdleTime by all tellers : 14541.568359
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 9
+total number of costumers served : 100
+total time required to serve these costumers : 13976.108398
+average Spent Time by a costumer : 158.315338	standard deviation : 77.337601
+Maximum Waiting Time of a Costumer : 166.298309
+Total ServiceTime by all tellers : 13976.108398
+Total IdleTime by all tellers : 18423.890625
+
+type of queuing : Single Queuing Model
+total number of tellers : 9
+total number of costumers served : 100
+total time required to serve these costumers : 13976.108398
+average Spent Time by a costumer : 143.608932	standard deviation : 82.664780
+Maximum Waiting Time of a Costumer : 107.590759
+Total ServiceTime by all tellers : 13976.108398
+Total IdleTime by all tellers : 18423.890625
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 10
+total number of costumers served : 99
+total time required to serve these costumers : 14034.708008
+average Spent Time by a costumer : 154.758743	standard deviation : 75.435333
+Maximum Waiting Time of a Costumer : 118.317940
+Total ServiceTime by all tellers : 14034.708008
+Total IdleTime by all tellers : 21965.291016
+
+type of queuing : Single Queuing Model
+total number of tellers : 10
+total number of costumers served : 100
+total time required to serve these costumers : 14034.708008
+average Spent Time by a costumer : 156.735077	standard deviation : 88.905960
+Maximum Waiting Time of a Costumer : 138.922333
+Total ServiceTime by all tellers : 14034.708008
+Total IdleTime by all tellers : 21965.291016
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 11
+total number of costumers served : 99
+total time required to serve these costumers : 12838.866211
+average Spent Time by a costumer : 141.017746	standard deviation : 76.198875
+Maximum Waiting Time of a Costumer : 94.676170
+Total ServiceTime by all tellers : 12838.866211
+Total IdleTime by all tellers : 26761.132812
+
+type of queuing : Single Queuing Model
+total number of tellers : 11
+total number of costumers served : 99
+total time required to serve these costumers : 12838.866211
+average Spent Time by a costumer : 138.241089	standard deviation : 76.426003
+Maximum Waiting Time of a Costumer : 104.917030
+Total ServiceTime by all tellers : 12838.866211
+Total IdleTime by all tellers : 26761.132812
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 12
+total number of costumers served : 100
+total time required to serve these costumers : 13654.187500
+average Spent Time by a costumer : 147.038727	standard deviation : 75.887299
+Maximum Waiting Time of a Costumer : 104.917030
+Total ServiceTime by all tellers : 13654.187500
+Total IdleTime by all tellers : 29545.814453
+
+type of queuing : Single Queuing Model
+total number of tellers : 12
+total number of costumers served : 99
+total time required to serve these costumers : 13654.187500
+average Spent Time by a costumer : 146.075989	standard deviation : 79.799492
+Maximum Waiting Time of a Costumer : 104.917030
+Total ServiceTime by all tellers : 13654.187500
+Total IdleTime by all tellers : 29545.814453
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 13
+total number of costumers served : 99
+total time required to serve these costumers : 14462.021484
+average Spent Time by a costumer : 154.072540	standard deviation : 76.327583
+Maximum Waiting Time of a Costumer : 104.917030
+Total ServiceTime by all tellers : 14462.021484
+Total IdleTime by all tellers : 32337.978516
+
+type of queuing : Single Queuing Model
+total number of tellers : 13
+total number of costumers served : 100
+total time required to serve these costumers : 14462.021484
+average Spent Time by a costumer : 140.797577	standard deviation : 79.531525
+Maximum Waiting Time of a Costumer : 64.516212
+Total ServiceTime by all tellers : 14462.021484
+Total IdleTime by all tellers : 32337.978516
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 14
+total number of costumers served : 99
+total time required to serve these costumers : 13978.802734
+average Spent Time by a costumer : 148.625702	standard deviation : 76.139053
+Maximum Waiting Time of a Costumer : 146.793182
+Total ServiceTime by all tellers : 13978.802734
+Total IdleTime by all tellers : 36421.199219
+
+type of queuing : Single Queuing Model
+total number of tellers : 14
+total number of costumers served : 100
+total time required to serve these costumers : 13978.802734
+average Spent Time by a costumer : 123.191605	standard deviation : 78.420288
+Maximum Waiting Time of a Costumer : 77.754265
+Total ServiceTime by all tellers : 13978.802734
+Total IdleTime by all tellers : 36421.199219
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 15
+total number of costumers served : 99
+total time required to serve these costumers : 13821.671875
+average Spent Time by a costumer : 147.512619	standard deviation : 78.638794
+Maximum Waiting Time of a Costumer : 103.129494
+Total ServiceTime by all tellers : 13821.671875
+Total IdleTime by all tellers : 40178.328125
+
+type of queuing : Single Queuing Model
+total number of tellers : 15
+total number of costumers served : 99
+total time required to serve these costumers : 13821.671875
+average Spent Time by a costumer : 144.133194	standard deviation : 79.089401
+Maximum Waiting Time of a Costumer : 107.590759
+Total ServiceTime by all tellers : 13821.671875
+Total IdleTime by all tellers : 40178.328125
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 16
+total number of costumers served : 99
+total time required to serve these costumers : 13263.951172
+average Spent Time by a costumer : 142.125046	standard deviation : 77.638168
+Maximum Waiting Time of a Costumer : 107.590759
+Total ServiceTime by all tellers : 13263.951172
+Total IdleTime by all tellers : 44336.042969
+
+type of queuing : Single Queuing Model
+total number of tellers : 16
+total number of costumers served : 100
+total time required to serve these costumers : 13263.951172
+average Spent Time by a costumer : 141.969162	standard deviation : 78.515030
+Maximum Waiting Time of a Costumer : 107.590759
+Total ServiceTime by all tellers : 13263.951172
+Total IdleTime by all tellers : 44336.042969
+
+
+type of queuing : Multiple Queuing Model
+total number of tellers : 17
+total number of costumers served : 99
+total time required to serve these costumers : 15194.198242
+average Spent Time by a costumer : 159.262665	standard deviation : 75.236679
+Maximum Waiting Time of a Costumer : 118.317940
+Total ServiceTime by all tellers : 15194.198242
+Total IdleTime by all tellers : 46005.800781
+
+type of queuing : Single Queuing Model
+total number of tellers : 17
+total number of costumers served : 99
+total time required to serve these costumers : 15194.198242
+average Spent Time by a costumer : 141.988800	standard deviation : 79.082809
+Maximum Waiting Time of a Costumer : 104.917030
+Total ServiceTime by all tellers : 15194.198242
+Total IdleTime by all tellers : 46005.800781
+
+
