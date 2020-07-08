@@ -131,7 +131,7 @@ int processString(char* inputString, char** parsed, char** parsedpipe)
     char* strpiped[2];
     int piped=0;
     // printf("inputString is : %s\n", inputString);
-    char* inputString1;
+    char inputString1[MAXCOM];
     strcpy(inputString1, inputString);
     // printf("Manoj : %s\n", inputString);
     int i=0;
@@ -536,7 +536,6 @@ int main()
     char inputString[MAXCOM], *parsedArgs[MAXLIST];
     char* parsingpiped[MAXLIST];
     int totalpiping = 0;
-    // init_shell() start;
     clear();
     char* username = getenv("USER");
     printf("Hello %s \n welcome to my shell.\n", username);
