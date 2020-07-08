@@ -1,0 +1,40 @@
+CC=gcc
+CFLAGS=-c -Wall
+newDir=mkdir -p
+
+all: dirobj direxe hello
+
+dirobj:
+	$(newDir) obj
+
+direxe:
+	$(newDir) exe
+
+hello: myApp.o mySqr.o myPythonInC.o sumseries.o modulo10.o
+	$(CC) ./obj/mySqr.o ./obj/myPythonInC.o ./obj/sumseries.o ./obj/modulo10.o ./obj/myApp.o -o ./exe/myApp
+
+myApp.o: myApp.c
+	$(CC) $(CFLAGS) myApp.c -o ./obj/myApp.o;
+
+mySqr.o: ./1/mySqr.c
+	(cd 1; make all)
+
+myPythonInC.o: ./2/myPythonInC.c
+	(cd 2; make all)
+
+sumseries.o: ./3/sumseries.c
+	(cd 3; make all)
+
+modulo10.o: ./4/modulo10.c
+	(cd 4; make all)
+
+clean:
+	(cd 1; make clean)
+	(cd 2; make clean)
+	(cd 3; make clean)
+	(cd 4; make clean)
+	rm -rf *o myApp obj exe
+	rm -f ./obj/myApp.o
+
+RUN:
+	./exe/myApp

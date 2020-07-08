@@ -1,0 +1,6 @@
+
+all: sumseries.c
+	gcc -c sumseries.c -o ./../obj/sumseries.o
+
+clean:
+	rm -f ./../obj/sumseries.o
