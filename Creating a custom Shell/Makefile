@@ -5,4 +5,4 @@ run:
 	./myshell
 
 clean:
-	rm -f myshell
+	rm myshell
